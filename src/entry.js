@@ -7,7 +7,7 @@
  * 
  */
 
-import { WebGLRenderer, PerspectiveCamera, Scene, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Scene, Vector3, BoxGeometry, Mesh, MeshBasicMaterial, MeshLambertMaterial } from 'three';
 import SeedScene from './objects/Scene.js';
 
 const scene = new Scene();
@@ -15,8 +15,15 @@ const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({antialias: true});
 const seedScene = new SeedScene();
 
+// Make the cube, and add it to the scene
+var geometry = new BoxGeometry();
+var material = new MeshLambertMaterial( { color: 0xff0000 } );
+var cube = new Mesh( geometry, material );
+scene.add( cube );
+
+
 // scene
-scene.add(seedScene);
+// scene.add(seedScene);
 
 // camera
 camera.position.set(6,3,-10);
@@ -31,8 +38,15 @@ const onAnimationFrameHandler = (timeStamp) => {
   renderer.render(scene, camera);
   seedScene.update && seedScene.update(timeStamp);
   window.requestAnimationFrame(onAnimationFrameHandler);
+
+  // add code to manipulate assets
+  cube.rotation.x += 0.1;
+  cube.rotation.y += 0.1;
+
+
 }
 window.requestAnimationFrame(onAnimationFrameHandler);
+
 
 // resize
 const windowResizeHanlder = () => { 
